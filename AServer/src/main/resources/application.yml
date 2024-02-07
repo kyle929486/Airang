@@ -1,0 +1,34 @@
+# 서버포트 번호
+server:
+  port: 8080
+
+# 콘솔 ANSI 색상
+spring:
+  output:
+    ansi:
+      enabled: always
+
+  # datasource 설정
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/airang?useSSL=false&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
+    username: admin
+    password: 1234
+
+  # JPA 설정
+  jpa:
+    show-sql: true # JPA에서 생성되는 SQL 문을 콘솔 출력
+    properties:
+      hibernate:
+        format_sql: true # 쿼리를 보기 좋게 포매팅 하여 출력
+
+    hibernate:
+      # DDL(create, alter, drop) 정의시 DB의 고유 기능을 사용할 수 있다.
+      # create: 서버 가동할때마다 기존 테이블을 삭제하고 새로 생성
+      # update: DB테이블와 엔티티 매핑정보를 비교해서 변경사항이 있는 경우만 수정 (ALTER). 테이블 없으면 CREATE
+      # create-drop: 기본적으로 create 와 동일한 동작을 하나, 종료시점에서 drop
+      # none : production 환경으로 배포할때는 반드시 none 으로 하자.
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
