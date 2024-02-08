@@ -22,7 +22,7 @@ public class Post extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postID;
+    private Long id;
 
     @Column(nullable = false)
     private String subject;
@@ -40,7 +40,7 @@ public class Post extends BaseEntity {
 
     // 첨부파일
     @OneToMany(cascade = CascadeType.ALL) // cascade = CascadeType.ALL 삭제 등의 동작 발생 시 child 자동 삭제
-    @JoinColumn(name = "postID")
+    @JoinColumn(name = "post_id")
     @ToString.Exclude
     @Builder.Default
     private List<PostAttachment> fileList = new ArrayList<>();
@@ -48,7 +48,7 @@ public class Post extends BaseEntity {
 
     // 댓글
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "postID")
+    @JoinColumn(name = "post_id")
     @ToString.Exclude
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();

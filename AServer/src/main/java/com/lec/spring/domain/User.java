@@ -18,7 +18,7 @@ import org.hibernate.annotations.DynamicUpdate;
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userID;
+    private Long id;
 
     @Column(unique = true, nullable = false)
     private String nickname;
@@ -32,12 +32,14 @@ public class User extends BaseEntity {
     @JsonIgnore
     private String re_password;  // 비밀번호 확인 입력
 
-    @Column(unique = true, nullable = false)
-    private String email;
+//    @Column(unique = true, nullable = false)
+//    private String email;
 
     @Column
     @ToString.Exclude
     @JsonIgnore
     private String authority;
+
+    private String providerId;
 
 }

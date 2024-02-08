@@ -15,9 +15,9 @@ public class DiaryAttachment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long diaryAttachmentID;
+    private Long id;
 
-    @Column(name = "diaryID")
+    @Column(name = "diary_id", nullable = false)
     private Long diary;
 
     @Column(nullable = false)

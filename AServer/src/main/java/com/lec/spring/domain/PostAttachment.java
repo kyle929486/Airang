@@ -15,9 +15,9 @@ public class PostAttachment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postAttachmentID;
+    private Long id;
 
-    @Column(name = "postID")
+    @Column(name = "post_id", nullable = false)
     private Long post;
 
     @Column(nullable = false)

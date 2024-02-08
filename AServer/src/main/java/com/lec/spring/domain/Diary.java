@@ -27,7 +27,7 @@ public class Diary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long diaryID;
+    private Long id;
 
     @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String content;
@@ -38,7 +38,7 @@ public class Diary {
 
     // 첨부파일
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "diaryID")
+    @JoinColumn(name = "diary_id")
     @ToString.Exclude
     @Builder.Default
     private List<DiaryAttachment> fileList = new ArrayList<>();
@@ -48,7 +48,6 @@ public class Diary {
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     @JsonProperty("regDate")
-    @Column(unique = true)
     private LocalDate regDate;
 
     @PrePersist

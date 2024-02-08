@@ -10,19 +10,19 @@ import lombok.*;
 @Builder
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Entity
+@Entity(name = "comment")
 public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentID;
+    private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = false)
     @ToString.Exclude
     private User user;
 
     @JsonIgnore
-    @Column(name = "postID")
+    @Column(name = "post_id", nullable = false)
     private Long post;
 
     @Column(nullable = false)
