@@ -26,8 +26,8 @@ public class FacilityReview {
     @Column(name = "facility_id", nullable = false)
     private Long facility;
 
-    @ColumnDefault(value = "false")
-    private Boolean isLike;
+    @ColumnDefault(value = "0")
+    private boolean isLike;
 
     @Column
     private String reviewContent;

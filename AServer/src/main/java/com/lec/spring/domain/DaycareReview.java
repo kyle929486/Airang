@@ -26,8 +26,8 @@ public class DaycareReview {
     @Column(name = "daycare_id", nullable = false)
     private Long daycare;
 
-    @ColumnDefault(value = "false")
-    private Boolean isLike;
+    @ColumnDefault(value = "0")
+    private boolean isLike;
 
     @Column
     private String reviewContent;
