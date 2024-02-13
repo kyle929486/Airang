@@ -21,7 +21,7 @@ public class User extends BaseEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String nickname;
+    private String username;
 
     @Column(nullable = false)
     @JsonIgnore

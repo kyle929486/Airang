@@ -1,11 +1,10 @@
 package com.lec.spring.service;
 
-
-import com.lec.spring.domain.Post;
-import com.lec.spring.domain.PostAttachment;
+import com.lec.spring.domain.Diary;
+import com.lec.spring.domain.DiaryAttachment;
 import com.lec.spring.domain.User;
-import com.lec.spring.repository.PostAttachmentRepository;
-import com.lec.spring.repository.PostRepository;
+import com.lec.spring.repository.DiaryAttachmentRepository;
+import com.lec.spring.repository.DiaryRepository;
 import com.lec.spring.repository.UserRepository;
 import com.lec.spring.util.U;
 import jakarta.servlet.http.HttpSession;
@@ -32,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class BoardService {
+public class DiaryService {
 
     @Value("${app.upload.path}")
     private String uploadDir;
@@ -44,27 +43,26 @@ public class BoardService {
     private int WRITE_PAGES;
 
     @Autowired
-    private PostRepository postRepository;
+    private DiaryRepository diaryRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private PostAttachmentRepository postAttachmentRepository;
+    private DiaryAttachmentRepository diaryAttachmentRepository;
 
     @Transactional
-    public Post write(Post post, Map<String, MultipartFile> files) {
+    public Diary write(Diary diary, Map<String, MultipartFile> files) {
 
         // 현재 로그인한 작성자 정보.
         User user = U.getLoggedUser();
 
         // 위 정보는 session 의 정보이고, 일단 DB 에서 다시 읽어온다
         user = userRepository.findById(user.getId()).orElse(null);
-        post.setUser(user);   // 글 작성자 세팅
+        diary.setUser(user);   // 일기 작성자 세팅
 
-        addFiles(files, post.getId());
-        return postRepository.saveAndFlush(post);
+        return diaryRepository.saveAndFlush(diary);
     }
 
-    // 특정 글(id) 첨부파일(들) 추가
+    // 특정 일기(id) 첨부파일(들) 추가
     private void addFiles(Map<String, MultipartFile> files, Long id) {
         if(files != null){
             for(var e : files.entrySet()){
@@ -78,20 +76,20 @@ public class BoardService {
                 System.out.println();
 
                 // 물리적인 파일 저장
-                PostAttachment file = upload(e.getValue());
+                DiaryAttachment file = upload(e.getValue());
 
                 // 성공하면 DB 에도 저장
                 if(file != null){
-                    file.setPost(id);   // FK 설정
-                    postAttachmentRepository.saveAndFlush(file); // INSERT
+                    file.setDiary(id);   // FK 설정
+                    diaryAttachmentRepository.saveAndFlush(file); // INSERT
                 }
             }
         }
     }
 
     // 물리적으로 파일 저장.  중복된 이름 rename 처리
-    private PostAttachment upload(MultipartFile multipartFile) {
-        PostAttachment attachment = null;
+    private DiaryAttachment upload(MultipartFile multipartFile) {
+        DiaryAttachment attachment = null;
 
         // 담긴 파일이 없으면 pass
         String originalFilename = multipartFile.getOriginalFilename();
@@ -138,7 +136,7 @@ public class BoardService {
             throw new RuntimeException(e);
         }
 
-        attachment = PostAttachment.builder()
+        attachment = DiaryAttachment.builder()
                 .fileName(fileName)   // 저장된 이름
                 .sourceName(sourceName)  // 원본 이름
                 .build();
@@ -147,26 +145,24 @@ public class BoardService {
     }
 
     @Transactional
-    public Post detail(Long id) {
-        Post postEntity = postRepository.findById(id).orElse(null);
+    public Diary detail(Long id) {
+        Diary diaryEntity = diaryRepository.findById(id).orElse(null);
 
-        if (postEntity != null) {
-            postEntity.setViewCnt(postEntity.getViewCnt() + 1);
-            postRepository.saveAndFlush(postEntity);
-
+        if (diaryEntity != null) {
             // 첨부파일(들) 정보 가져오기
-            List<PostAttachment> fileList = postAttachmentRepository.findByPost(postEntity.getId());
+            List<DiaryAttachment> fileList = diaryAttachmentRepository.findByDiary(diaryEntity.getId());
 
             setImage(fileList);   // 이미지 파일 여부 세팅
-            postEntity.setFileList(fileList);
+            diaryEntity.setFileList(fileList);
 
+            diaryRepository.saveAndFlush(diaryEntity);
         }
 
-        return postEntity;
+        return diaryEntity;
     }
 
     // 이미지 파일 여부 세팅
-    private void setImage(List<PostAttachment> fileList) {
+    private void setImage(List<DiaryAttachment> fileList) {
         // upload 실제 물리적인 경로
         String realPath = new File(uploadDir).getAbsolutePath();
 
@@ -186,13 +182,13 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<Post> list() {
-        return postRepository.findAll();
+    public List<Diary> list() {
+        return diaryRepository.findAll();
     }
 
     // 페이징 리스트
     @Transactional(readOnly = true)
-    public List<Post> list(Integer page, Model model) {
+    public List<Diary> list(Integer page, Model model) {
         // 현재 페이지 parameter
         if(page == null) page = 1;  // 디폴트는 1page
         if(page < 1) page = 1;
@@ -210,17 +206,17 @@ public class BoardService {
         session.setAttribute("page", page);
 
         // JPA 를 활용한 페이징 처리  --> Page<E>
-        Page<Post> pagePost = postRepository.findAll(PageRequest.of(page -1, pageRows, Sort.by(Sort.Order.desc("id"))));
+        Page<Diary> pageDiary = diaryRepository.findAll(PageRequest.of(page -1, pageRows, Sort.by(Sort.Order.desc("id"))));
 
-        long cnt = pagePost.getTotalElements(); // 글 목록 전체의 개수
-        int totalPage = pagePost.getTotalPages();  // 총 몇 '페이지' ?
+        long cnt = pageDiary.getTotalElements(); // 글 목록 전체의 개수
+        int totalPage = pageDiary.getTotalPages();  // 총 몇 '페이지' ?
 
         // [페이징] 에 표시할 '시작페이지' 와 '마지막페이지'
         int startPage = 0;
         int endPage = 0;
 
         // 해당 페이지의 글 목록
-        List<Post> list = null;
+        List<Diary> list = null;
 
         if(cnt > 0){  // 데이터가 최소 1개 이상 있는 경우만 페이징
             //  page 값 보정
@@ -235,7 +231,7 @@ public class BoardService {
             if (endPage >= totalPage) endPage = totalPage;
 
             // 해당페이지의 글 목록 읽어오기
-            list = pagePost.getContent();
+            list = pageDiary.getContent();
             model.addAttribute("list", list);
         } else {
             page = 0;
@@ -256,40 +252,39 @@ public class BoardService {
     }
 
     @Transactional
-    public Post update(Post post  // <- id, subject, content
+    public Diary update(Diary diary  // <- id, content
             , Map<String, MultipartFile> files  // 새로 추가된 첨부파일들
             , Long[] delfile) {  // 삭제될 첨부파일들의 id들
 
-        Post postEntity = postRepository.findById(post.getId()).orElse(null);
+        Diary diaryEntity = diaryRepository.findById(diary.getId()).orElse(null);
 
-        if (postEntity != null) {
-            // Post update
-            postEntity.setSubject(post.getSubject());
-            postEntity.setContent(post.getContent());
-            postEntity.setFileList(post.getFileList());
+        if (diaryEntity != null) {
+            // Diary update
+            diaryEntity.setContent(diary.getContent());
+            diaryEntity.setFileList(diary.getFileList());
 
             // 새로운 첨부파일 추가
-            addFiles(files, post.getId());
+            addFiles(files, diary.getId());
 
             // 삭제할 첨부파일(들) 삭제
             if(delfile != null){
                 for(Long fileId : delfile){
-                    PostAttachment file = postAttachmentRepository.findById(fileId).orElse(null);
+                    DiaryAttachment file = diaryAttachmentRepository.findById(fileId).orElse(null);
                     if(file != null){
                         delFile(file);   // 물리적으로 파일 삭제
-                        postAttachmentRepository.delete(file); // DB에서 삭제
+                        diaryAttachmentRepository.delete(file); // DB에서 삭제
                     }
                 }
             }
 
-            postRepository.saveAndFlush(postEntity);
+            diaryRepository.saveAndFlush(diaryEntity);
         }
 
-        return postEntity;
+        return diaryEntity;
     }
 
     // 특정 첨부파일(id) 를 물리적으로 삭제
-    private void delFile(PostAttachment file) {
+    private void delFile(DiaryAttachment file) {
         String saveDirectory = new File(uploadDir).getAbsolutePath();
         File f = new File(saveDirectory, file.getFileName());  // 물리적으로 저장된 파일들이 삭제 대상
         System.out.println("삭제시도--> " + f.getAbsolutePath());
@@ -307,18 +302,18 @@ public class BoardService {
 
     @Transactional
     public int delete(Long id) {
-        boolean exists = postRepository.existsById(id);
+        boolean exists = diaryRepository.existsById(id);
         if (!exists) return 0;
 
         // 물리적으로 저장된 첨부파일(들) 삭제
-        List<PostAttachment> fileList = postAttachmentRepository.findByPost(id);
+        List<DiaryAttachment> fileList = diaryAttachmentRepository.findByDiary(id);
         if(fileList != null && fileList.size() > 0){
-            for(PostAttachment file : fileList){
+            for(DiaryAttachment file : fileList){
                 delFile(file);
             }
         }
         // 글 삭제
-        postRepository.deleteById(id);
+        diaryRepository.deleteById(id);
         return 1;
     }
 

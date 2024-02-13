@@ -32,6 +32,12 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
 
+  # security
+  security:
+    user:
+      name: user1     # 디폴트 security username
+      password: 1234   #  password
+
 app:
   # 파일 업로드 경로
   upload:
