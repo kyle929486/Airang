@@ -53,12 +53,12 @@ public class BoardService {
     @Transactional
     public Post write(Post post, Map<String, MultipartFile> files) {
 
-        // 현재 로그인한 작성자 정보.
-        User user = U.getLoggedUser();
-
-        // 위 정보는 session 의 정보이고, 일단 DB 에서 다시 읽어온다
-        user = userRepository.findById(user.getId()).orElse(null);
-        post.setUser(user);   // 글 작성자 세팅
+//        // 현재 로그인한 작성자 정보.
+//        User user = U.getLoggedUser();
+//
+//        // 위 정보는 session 의 정보이고, 일단 DB 에서 다시 읽어온다
+//        user = userRepository.findById(user.getId()).orElse(null);
+//        post.setUser(user);   // 글 작성자 세팅
 
         addFiles(files, post.getId());
         return postRepository.saveAndFlush(post);
@@ -66,11 +66,11 @@ public class BoardService {
 
     // 특정 글(id) 첨부파일(들) 추가
     private void addFiles(Map<String, MultipartFile> files, Long id) {
-        if(files != null){
-            for(var e : files.entrySet()){
+        if (files != null) {
+            for (var e : files.entrySet()) {
 
                 // name="upfile##" 인 경우만 첨부파일 등록. (이유, 다른 웹에디터와 섞이지 않도록..ex: summernote)
-                if(!e.getKey().startsWith("upfile")) continue;
+                if (!e.getKey().startsWith("upfile")) continue;
 
                 // 첨부 파일 정보 출력
                 System.out.println("\n첨부파일 정보: " + e.getKey());   // name값
@@ -81,7 +81,7 @@ public class BoardService {
                 PostAttachment file = upload(e.getValue());
 
                 // 성공하면 DB 에도 저장
-                if(file != null){
+                if (file != null) {
                     file.setPost(id);   // FK 설정
                     postAttachmentRepository.saveAndFlush(file); // INSERT
                 }
@@ -95,7 +95,7 @@ public class BoardService {
 
         // 담긴 파일이 없으면 pass
         String originalFilename = multipartFile.getOriginalFilename();
-        if(originalFilename == null || originalFilename.length() == 0) return null;
+        if (originalFilename == null || originalFilename.length() == 0) return null;
 
         // 원본파일명
         String sourceName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
@@ -104,10 +104,10 @@ public class BoardService {
 
         // 파일명 이 중복되는지 확인
         File file = new File(uploadDir, sourceName);
-        if(file.exists()){  // 이미 존재하는 파일명,  중복되면 다름 이름으로 변경하여 저장
+        if (file.exists()) {  // 이미 존재하는 파일명,  중복되면 다름 이름으로 변경하여 저장
             // a.txt => a_2378142783946.txt  : time stamp 값을 활용할거다!
             int pos = fileName.lastIndexOf(".");
-            if(pos > -1){   // 확장자가 있는 경우
+            if (pos > -1) {   // 확장자가 있는 경우
                 String name = fileName.substring(0, pos);  // 파일 '이름'
                 String ext = fileName.substring(pos + 1);   // 파일 '확장자'
 
@@ -170,7 +170,7 @@ public class BoardService {
         // upload 실제 물리적인 경로
         String realPath = new File(uploadDir).getAbsolutePath();
 
-        for(var attachment : fileList){
+        for (var attachment : fileList) {
             BufferedImage imgData = null;
             File f = new File(realPath, attachment.getFileName());  // 저장된 첨부파일에 대한 File 객체
 
@@ -181,7 +181,7 @@ public class BoardService {
                 throw new RuntimeException(e);
             }
 
-            if(imgData != null) attachment.setImage(true);  // 이미지 여부 체크!
+            if (imgData != null) attachment.setImage(true);  // 이미지 여부 체크!
         }
     }
 
@@ -194,23 +194,23 @@ public class BoardService {
     @Transactional(readOnly = true)
     public List<Post> list(Integer page, Model model) {
         // 현재 페이지 parameter
-        if(page == null) page = 1;  // 디폴트는 1page
-        if(page < 1) page = 1;
+        if (page == null) page = 1;  // 디폴트는 1page
+        if (page < 1) page = 1;
 
         // 페이징
         // writePages: 한 [페이징] 당 몇개의 페이지가 표시되나
         // pageRows: 한 '페이지'에 몇개의 글을 리스트 할것인가?
         HttpSession session = U.getSession();
-        Integer writePages = (Integer)session.getAttribute("writePages");
-        if(writePages == null) writePages = WRITE_PAGES;  // 만약 session 에 없으면 기본값으로 동작
-        Integer pageRows = (Integer)session.getAttribute("pageRows");
-        if(pageRows == null) pageRows = PAGE_ROWS;  // 만약 session 에 없으면 기본값으로 동작
+        Integer writePages = (Integer) session.getAttribute("writePages");
+        if (writePages == null) writePages = WRITE_PAGES;  // 만약 session 에 없으면 기본값으로 동작
+        Integer pageRows = (Integer) session.getAttribute("pageRows");
+        if (pageRows == null) pageRows = PAGE_ROWS;  // 만약 session 에 없으면 기본값으로 동작
 
         // 현재 페이지 번호 -> session 에 저장
         session.setAttribute("page", page);
 
         // JPA 를 활용한 페이징 처리  --> Page<E>
-        Page<Post> pagePost = postRepository.findAll(PageRequest.of(page -1, pageRows, Sort.by(Sort.Order.desc("id"))));
+        Page<Post> pagePost = postRepository.findAll(PageRequest.of(page - 1, pageRows, Sort.by(Sort.Order.desc("id"))));
 
         long cnt = pagePost.getTotalElements(); // 글 목록 전체의 개수
         int totalPage = pagePost.getTotalPages();  // 총 몇 '페이지' ?
@@ -222,9 +222,9 @@ public class BoardService {
         // 해당 페이지의 글 목록
         List<Post> list = null;
 
-        if(cnt > 0){  // 데이터가 최소 1개 이상 있는 경우만 페이징
+        if (cnt > 0) {  // 데이터가 최소 1개 이상 있는 경우만 페이징
             //  page 값 보정
-            if(page > totalPage) page = totalPage;
+            if (page > totalPage) page = totalPage;
 
             // 몇번째 데이터부터 fromRow
             int fromRow = (page - 1) * pageRows;
@@ -272,10 +272,10 @@ public class BoardService {
             addFiles(files, post.getId());
 
             // 삭제할 첨부파일(들) 삭제
-            if(delfile != null){
-                for(Long fileId : delfile){
+            if (delfile != null) {
+                for (Long fileId : delfile) {
                     PostAttachment file = postAttachmentRepository.findById(fileId).orElse(null);
-                    if(file != null){
+                    if (file != null) {
                         delFile(file);   // 물리적으로 파일 삭제
                         postAttachmentRepository.delete(file); // DB에서 삭제
                     }
@@ -294,8 +294,8 @@ public class BoardService {
         File f = new File(saveDirectory, file.getFileName());  // 물리적으로 저장된 파일들이 삭제 대상
         System.out.println("삭제시도--> " + f.getAbsolutePath());
 
-        if(f.exists()){
-            if(f.delete()){
+        if (f.exists()) {
+            if (f.delete()) {
                 System.out.println("삭제 성공");
             } else {
                 System.out.println("삭제 실패");
@@ -312,8 +312,8 @@ public class BoardService {
 
         // 물리적으로 저장된 첨부파일(들) 삭제
         List<PostAttachment> fileList = postAttachmentRepository.findByPost(id);
-        if(fileList != null && fileList.size() > 0){
-            for(PostAttachment file : fileList){
+        if (fileList != null && fileList.size() > 0) {
+            for (PostAttachment file : fileList) {
                 delFile(file);
             }
         }
