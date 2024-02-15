@@ -1,5 +1,6 @@
 package com.lec.spring.service;
 
+import com.lec.spring.domain.Authority;
 import com.lec.spring.domain.User;
 import com.lec.spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class UserService {
         // password 는 암호화 해서 저장.  PasswordEncoder 객체 사용
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         // 신규회원은 ROLE_MEMBER 권한을 부여하기
-        user.setAuthority("ROLE_MEMBER");
+        user.setAuthority(Authority.ROLE_MEMBER);
 
 
         // 새로운 회원 (User) 저장.  id 값 받아옴.

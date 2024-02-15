@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './pages/Main';
 import BoardWrite from './pages/board/BoardWrite';
+import BoardList from './pages/board/BoardList';
+import BoardDetail from './pages/board/BoardDetail';
 
 const AirangApp = () => {
     return (
@@ -28,11 +30,11 @@ const AirangApp = () => {
             {/*육아일기 조회*/}
             {/* <Route path="/diary/update/:id" Component={DiaryUpdate}></Route>  */}
             {/*육아일기 수정*/}
-            {/* <Route path="/board/list" Component={BoardList}></Route>  */}
+            <Route path="/board/list" Component={BoardList}></Route> 
             {/*게시판*/}
             <Route path="/board/write" Component={BoardWrite}></Route> 
             {/*게시글 작성*/}
-            {/* <Route path="/board/detail/:id" Component={BoardDetail}></Route>  */}
+            <Route path="/board/detail/:id" Component={BoardDetail}></Route> 
             {/*게시글 조회*/}
             {/* <Route path="/board/update/:id" Component={BoardUpdate}></Route>  */}
             {/*게시글 수정*/}

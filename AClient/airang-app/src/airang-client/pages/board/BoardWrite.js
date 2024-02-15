@@ -15,35 +15,35 @@ const BoardWrite = () => {
     regDate: '',
   });
 
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
 
-  const handleFilesChange = (e) => {
-    setFiles(Array.from(e.target.files));
-  };
+  // const handleFilesChange = (e) => {
+  //   setFiles(Array.from(e.target.files));
+  // };
 
-  const uploadFiles = (e) => {
-    e.preventDefault();
-    const formData = new FormData();
+  // const uploadFiles = (e) => {
+  //   e.preventDefault();
+  //   const formData = new FormData();
 
-    files.map((file) => {
-      formData.append('files', file);
-    });
+  //   files.map((file) => {
+  //     formData.append('files', file);
+  //   });
 
-    console.log(Array.from(formData));
+  //   console.log(Array.from(formData));
 
-    axios
-      .post('http://localhost:8080/file/uploads', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-  };
+  //   axios
+  //     .post('http://localhost:8080/file/uploads', formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // };
 
   const changeValue = (e) => {
     setPost({ ...post, [e.target.name]: e.target.value });
@@ -75,7 +75,7 @@ const BoardWrite = () => {
         .then((data) => {
           if (data !== null) {
             alert('등록 성공');
-            navigate(`/detail/${data.id}`);
+            navigate(`/board/detail/${data.id}`);
           } else {
             alert('등록 실패');
           }
@@ -120,14 +120,14 @@ const BoardWrite = () => {
             />
           </Form.Group>
 
-          <Form.Group>
+          {/* <Form.Group>
             <input
               className="file-input"
               type="file"
               onChange={handleFilesChange}
             />
             <Button onClick={uploadFiles}>upload</Button>
-          </Form.Group>
+          </Form.Group> */}
 
           <div className="d-flex">
             <Button variant="btn btn-outline-dark ms-1" type="submit">

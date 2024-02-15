@@ -53,12 +53,12 @@ public class BoardService {
     @Transactional
     public Post write(Post post, Map<String, MultipartFile> files) {
 
-//        // 현재 로그인한 작성자 정보.
-//        User user = U.getLoggedUser();
-//
-//        // 위 정보는 session 의 정보이고, 일단 DB 에서 다시 읽어온다
-//        user = userRepository.findById(user.getId()).orElse(null);
-//        post.setUser(user);   // 글 작성자 세팅
+        // 현재 로그인한 작성자 정보.
+        User user = U.getLoggedUser();
+
+        // 위 정보는 session 의 정보이고, 일단 DB 에서 다시 읽어온다
+        user = userRepository.findById(user.getId()).orElse(null);
+        post.setUser(user);   // 글 작성자 세팅
 
         addFiles(files, post.getId());
         return postRepository.saveAndFlush(post);

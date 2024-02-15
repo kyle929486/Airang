@@ -32,14 +32,14 @@ public class User extends BaseEntity {
     @JsonIgnore
     private String re_password;  // 비밀번호 확인 입력
 
-//    @Column(unique = true, nullable = false)
-//    private String email;
+    @Column(unique = true, nullable = false)
+    private String email;
 
     @Column
+    @Enumerated(EnumType.STRING)
     @ToString.Exclude
     @JsonIgnore
-    private String authority;
+    private Authority authority;
 
-    private String providerId;
 
 }

@@ -3,13 +3,11 @@ package com.lec.spring.config;
 import com.lec.spring.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
-public class PrincipalDetails implements UserDetails, OAuth2User {
+public class PrincipalDetails implements UserDetails {
 
 
     // 로그인한 사용자 정보
@@ -25,12 +23,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         this.user = user;
     }
 
-    // OAuth 로그인용 생성자
-    public PrincipalDetails(User user, Map<String, Object> attributes){
-        this.user = user;    // 이때 User 정보는, 인증 직후 provider 로부터 받은 attributes 를 토대로 생성하게 된다.
-        this.attributes = attributes;
-    }
-
 
     // 해당 User 의 '권한(들)'을 리턴
     // 현재 로그인한 사용자의 권한정보가 필요할때마다 호출된다. 혹은 필요할때마다 직접 호출해 사용할수도 있다
@@ -43,16 +35,15 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
             collect.add(new GrantedAuthority() {
                 @Override
                 public String getAuthority() {
-                    return user.getAuthority();
+                    return user.getAuthority().name();
                 }
 
-                // thymeleaf 등에서 확인 활용하기 위한 문자열
+                // 확인 활용하기 위한 문자열
                 @Override
                 public String toString() {
-                    return user.getAuthority();
+                    return user.getAuthority().name();
                 }
             });
-
 
         return collect;
     }
@@ -92,18 +83,4 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return true;
     }
 
-    //-------------------------------------------------------------
-    // OAuth2User 를 implement 하면 구현할 메소드
-
-    private Map<String, Object> attributes;     // ← OAuth2User 의 getAttributes() 값
-
-    @Override
-    public String getName() {
-        return null;   // 사용하지 않을 예정
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return attributes;  // 어디서 받아올까?  -> 생성자!
-    }
 }
