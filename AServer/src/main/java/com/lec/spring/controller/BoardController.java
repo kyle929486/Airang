@@ -7,9 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Map;
 
 @Controller
 @RequestMapping("/board")
@@ -26,8 +23,8 @@ public class BoardController {
 
     @CrossOrigin
     @PostMapping("/write")
-    public ResponseEntity<?> write(@RequestBody Post post, Map<String, MultipartFile> files) {
-        return new ResponseEntity<>(boardService.write(post, files), HttpStatus.CREATED);
+    public ResponseEntity<?> write(@RequestBody Post post) {
+        return new ResponseEntity<>(boardService.write(post), HttpStatus.CREATED);
     }
 
     @CrossOrigin
@@ -38,8 +35,8 @@ public class BoardController {
 
     @CrossOrigin
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody Post post, Map<String, MultipartFile> files, Long[] delfile) {
-        return new ResponseEntity<>(boardService.update(post, files, delfile), HttpStatus.OK);
+    public ResponseEntity<?> update(@RequestBody Post post) {
+        return new ResponseEntity<>(boardService.update(post), HttpStatus.OK);
     }
 
     @CrossOrigin
