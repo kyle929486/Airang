@@ -15,17 +15,20 @@ public class UserController {
 
     private final UserService userService;
 
+    @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity<UserResponseDto> register(@RequestBody UserRequestDto requestDto) {
         return ResponseEntity.ok(userService.register(requestDto));
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<JwtTokenDto> login(@RequestBody UserRequestDto requestDto) {
         return ResponseEntity.ok(userService.login(requestDto));
     }
 
-    @GetMapping("/me")
+    @CrossOrigin
+    @GetMapping("/mypage")
     public ResponseEntity<UserResponseDto> getMyMemberInfo() {
         UserResponseDto myInfoBySecurity = userService.getMyInfoBySecurity();
         System.out.println(myInfoBySecurity.getEmail());

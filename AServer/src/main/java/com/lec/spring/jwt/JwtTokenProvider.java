@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @Component
 public class JwtTokenProvider {
 
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 5;
     private final Key key;
 
     // application.yml에서 secret 값 가져와서 key에 저장

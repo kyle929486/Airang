@@ -6,6 +6,10 @@ import BoardWrite from './pages/board/BoardWrite';
 import BoardList from './pages/board/BoardList';
 import BoardDetail from './pages/board/BoardDetail';
 import { Container } from 'react-bootstrap';
+import Login from './user/Login';
+import Logout from './user/Logout'
+import Register from './user/Register';
+import Mypage from './user/Mypage';
 
 const AirangApp = () => {
   return (
@@ -13,11 +17,10 @@ const AirangApp = () => {
       <Header/>
         <Container>
         <Routes>
-          <Route path="/" Component={Main}></Route> {/*메인*/}
-          {/* <Route path="/login" Component={Login}></Route>  */}
-          {/*로그인*/}
-          {/* <Route path="/register" Component={Register}></Route>  */}
-          {/*회원가입*/}
+          <Route path="/" Component={Main}></Route>
+          <Route path="/user/login" Component={Login}></Route>
+          <Route path="/user/logout" Component={Logout}></Route>
+          <Route path="/user/register" Component={Register}></Route>
           {/* <Route path="/search" Component={Search}></Route>  */}
           {/*장소 검색*/}
           {/* <Route path="/search/list" Component={SearchList}></Route>  */}
@@ -42,8 +45,7 @@ const AirangApp = () => {
           {/*게시글 조회*/}
           {/* <Route path="/board/update/:id" Component={BoardUpdate}></Route>  */}
           {/*게시글 수정*/}
-          {/* <Route path="/mypage" Component={MyPage}></Route>  */}
-          {/*마이페이지*/}
+          <Route path="/user/mypage" Component={Mypage}></Route> {/*마이페이지*/}
           {/* <Route path="/mypage/review" Component={MyPageReview}></Route>  */}
           {/*리뷰 목록*/}
           {/* <Route path="/mypage/like" Component={MyPageLike}></Route>  */}

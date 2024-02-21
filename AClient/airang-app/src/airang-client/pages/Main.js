@@ -18,7 +18,7 @@ const Main = () => {
             <h3>찾아볼까요?</h3>
 
             <img className='map' src='resources/지도_서울.jpg'/>
-            
+
         </MainDiv>
     );
 };
