@@ -87,21 +87,24 @@ const Login = () => {
       });
   };
 
-  const onValid = async({auth}) => {
+  const onValid = async () => {
 
-    const response = await loginUser({auth});
+    console.log(auth);
+    const username = auth.username;
+    const password = auth.password;
+
+    console.log(username);
+    console.log(password);
+    const response = await loginUser({username, password});
 
     console.log(response);
-    console.log(response.status);
-    console.log(response.json.refreshToken);
-    console.log(response.json.refreshToken);
 
     if (response.status) {
       // 쿠키에 Refresh Token, store에 Access Token 저장
       setRefreshToken(response.json.refreshToken);
       dispatch(SET_TOKEN(response.json.accessToken));
 
-      return navigate('/');
+      return navigate(`/`);
     } else {
       console.log(response.json);
     }
@@ -127,7 +130,7 @@ const Login = () => {
             onChange={changeValue}
           />
         </Inputs>
-        <Button onClick={onClick}>로그인</Button>
+        <Button onClick={onValid}>로그인</Button>
       </Form>
       <CustomLink to="/user/register">회원가입</CustomLink>
     </Wrapper>

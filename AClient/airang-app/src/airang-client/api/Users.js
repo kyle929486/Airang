@@ -9,7 +9,7 @@ const statusError = {
     }
 };
 
-// 백으로 요청할 promis
+// 백으로 요청할 promise
 const requestPromise = (url, option) => {
     return fetch(url, option);
 };
@@ -32,7 +32,7 @@ export const loginUser = async (credentials) => {
     const option = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json;charset=UTF-8'
+            'Content-Type': 'application/json;charset=utf-8'
         },
         body: JSON.stringify(credentials)
     };
@@ -41,7 +41,7 @@ export const loginUser = async (credentials) => {
         return statusError;
     });
 
-    if (parseInt(Number(data.status)/100)===2) {
+    if (data.status === 200) {
         const status = data.ok;
         const code = data.status;
         const text = await data.text();

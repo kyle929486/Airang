@@ -12,11 +12,13 @@ import AirangApp from './airang-client/AirangApp';
 import store from './airang-client/store'
 import { Provider } from 'react-redux';
 import { CookiesProvider } from 'react-cookie';
+import { AuthContextProvider } from './airang-client/store/auth-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     {/* <React.StrictMode> */}
+    {/* <AuthContextProvider> */}
     <CookiesProvider>
       <Provider store={store}>
         <BrowserRouter>
@@ -24,6 +26,7 @@ root.render(
         </BrowserRouter>
       </Provider>
     </CookiesProvider>
+    {/* </AuthContextProvider> */}
     {/* </React.StrictMode> */}
   </>,
 );

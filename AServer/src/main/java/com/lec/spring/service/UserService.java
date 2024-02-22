@@ -50,7 +50,7 @@ public class UserService {
 
     }
 
-    // 헤더에 있는 token 값을 토대로 Member의 data를 건내주는 메소드
+    // 헤더에 있는 token 값을 토대로 User의 data를 건내주는 메소드
     public UserResponseDto getMyInfoBySecurity() {
         return userRepository.findByUsername(SecurityUtil.getCurrentUsername())
                 .map(UserResponseDto::of)
