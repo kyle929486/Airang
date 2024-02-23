@@ -22,6 +22,7 @@ const calculateRemainingTime = (expirationTime) => {
 export const loginTokenHandler = (token, expirationTime) => {
     localStorage.setItem('token', token);
     localStorage.setItem('expirationTime', String(expirationTime));
+
     const remainingTime = calculateRemainingTime(expirationTime);
     return remainingTime;
 };
@@ -30,12 +31,16 @@ export const loginTokenHandler = (token, expirationTime) => {
 export const retrieveStoredToken = () => {
     const storedToken = localStorage.getItem('token');
     const storedExpirationDate = localStorage.getItem('expirationTime') || '0';
-    const remaingTime = calculateRemainingTime(storedExpirationDate);
+    
+    const remaingTime = calculateRemainingTime(+ storedExpirationDate);
+    console.log(remaingTime);
+
     if (remaingTime <= 1000) {
         localStorage.removeItem('token');
         localStorage.removeItem('expirationTime');
         return null;
     }
+    
     return {
         token: storedToken,
         duration: remaingTime

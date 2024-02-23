@@ -8,14 +8,11 @@ import BoardDetail from './pages/board/BoardDetail';
 import { Container } from 'react-bootstrap';
 import Login from './user/Login';
 import Logout from './user/Logout'
-import Register from './user/Register';
-import Mypage from './user/Mypage';
 
-import CreateAccountForm from './components/Auth/CreateAccountForm';
+
 import Layout from './components/Layout/Layout';
 import CreateAccountPage from './pages/CreateAccountPage';
 import AuthPage from './pages/AuthPage';
-import HomePage from './pages/HomePage';
 import AuthContext from './store/auth-context';
 
 const AirangApp = () => {
@@ -38,7 +35,7 @@ const AirangApp = () => {
           <Route path="/" Component={Main}></Route>
           <Route path="/user/login" Component={Login}></Route>
           <Route path="/user/logout" Component={Logout}></Route>
-          <Route path="/user/register" Component={Register}></Route>
+          {/* <Route path="/user/register" Component={Register}></Route> */}
 
 
           {/* <Route path="/search" Component={Search}></Route>  */}
@@ -63,7 +60,7 @@ const AirangApp = () => {
           <Route path="/board/detail/:id" Component={BoardDetail}></Route>
           {/* <Route path="/board/update/:id" Component={BoardUpdate}></Route>  */}
  
-          <Route path="/user/mypage" Component={Mypage}></Route>
+          {/* <Route path="/user/mypage" Component={Mypage}></Route> */}
           {/* <Route path="/mypage/review" Component={MyPageReview}></Route>  */}
           {/*리뷰 목록*/}
           {/* <Route path="/mypage/like" Component={MyPageLike}></Route>  */}

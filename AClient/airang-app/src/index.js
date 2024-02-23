@@ -18,7 +18,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
     {/* <React.StrictMode> */}
-    {/* <AuthContextProvider> */}
+    <AuthContextProvider>
     <CookiesProvider>
       <Provider store={store}>
         <BrowserRouter>
@@ -26,7 +26,7 @@ root.render(
         </BrowserRouter>
       </Provider>
     </CookiesProvider>
-    {/* </AuthContextProvider> */}
+    </AuthContextProvider>
     {/* </React.StrictMode> */}
   </>,
 );

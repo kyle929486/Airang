@@ -23,6 +23,7 @@ export const AuthContextProvider = (props) => {
 
     // tokenData는 authAction.retrieveStoredToken을 통해 token을 확인하는 함수를 실행하여 안의 값을 넣어준다
     const tokenData = authAction.retrieveStoredToken();
+
     let initialToken;
 
     // 만약 존재하게 된다면 initialToken의 값은 tokenData의 token 값이 된다
@@ -73,14 +74,16 @@ export const AuthContextProvider = (props) => {
         const data = authAction.loginActionHandler(username, password);
         data.then((result) => {
             if (result !== null) {
+                console.log(result);
                 const loginData = result.data;
                 setToken(loginData.accessToken);
                 logoutTimer = setTimeout(
                     logoutHandler, 
-                    authAction.loginTokenHandler(loginData.accessToken, loginData.tokenExpiresIn));
+                    authAction.loginTokenHandler(loginData.accessToken, loginData.accessTokenExpiresIn));
                 setIsSuccess(true);
                 console.log(isSuccess);
             }
+
         });
     };
 

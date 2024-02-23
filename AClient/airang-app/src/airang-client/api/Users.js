@@ -56,3 +56,62 @@ export const loginUser = async (credentials) => {
         return statusError;
     }
 };
+
+export const logoutUser = async (credentials, accessToken) => {
+    const option = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify(credentials)
+    };
+
+    const data = await getPromise('http://localhost:8080/user/logout', option).catch(() => {
+        return statusError;
+    });
+
+    if (data.status === 200) {
+        const status = data.ok;
+        const code = data.status;
+        const text = await data.text();
+        const json = text.length ? JSON.parse(text) : "";
+
+        return {
+            status,
+            code,
+            json
+        };
+    } else {
+        return statusError;
+    }
+}
+
+
+export const requestToken = async (refreshToken) => {
+    const option = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify({ refresh_token: refreshToken })
+    }
+
+    const data = await getPromise('http://localhost:8080/user/login', option).catch(() => {
+        return statusError;
+    });
+
+    if (data.status === 200) {
+        const status = data.ok;
+        const code = data.status;
+        const text = await data.text();
+        const json = text.length ? JSON.parse(text) : "";
+
+        return {
+            status,
+            code,
+            json
+        };
+    } else {
+        return statusError;
+    }
+};
