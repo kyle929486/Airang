@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Form, Input, Inputs, Title, Wrapper } from '../components/Common.js';
+import { Form, Input, Inputs, Title, Wrapper } from '../../components/Common';
 import { styled } from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { loginUser } from '../api/Users.js';
-import { setRefreshToken } from '../storage/Cookie.js';
-import { SET_TOKEN } from '../store/Auth.js';
+import { loginUser } from '../../api/Users';
+import { setRefreshToken } from '../../storage/Cookie';
+import { SET_TOKEN } from '../../store/Auth';
 
 const Button = styled.button`
   background-color: black;

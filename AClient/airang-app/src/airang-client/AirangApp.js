@@ -6,8 +6,8 @@ import BoardWrite from './pages/board/BoardWrite';
 import BoardList from './pages/board/BoardList';
 import BoardDetail from './pages/board/BoardDetail';
 import { Container } from 'react-bootstrap';
-import Login from './user/Login';
-import Logout from './user/Logout'
+import Login from './pages/user/Login';
+import Logout from './pages/user/Logout'
 
 
 import Layout from './components/Layout/Layout';
