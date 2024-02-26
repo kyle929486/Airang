@@ -1,12 +1,14 @@
-import React from "react";
-import { Fragment } from "react";
-import MainNavigation from "./MainNavigation";
+import React from 'react';
+import { Fragment } from 'react';
+import MainNavigation from './MainNavigation';
 
 const Layout = (props) => {
-
-    return (React.createElement(Fragment, null,
-        React.createElement(MainNavigation, null),
-        React.createElement("main", null, props.children)));
+  return (
+    <Fragment>
+      <MainNavigation />
+      <main>{props.children}</main>
+    </Fragment>
+  );
 };
 
 export default Layout;

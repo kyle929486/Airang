@@ -9,26 +9,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AirangApp from './airang-client/AirangApp';
 
-import store from './airang-client/store'
-import { Provider } from 'react-redux';
-import { CookiesProvider } from 'react-cookie';
 import { AuthContextProvider } from './airang-client/store/auth-context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-    {/* <React.StrictMode> */}
     <AuthContextProvider>
-    <CookiesProvider>
-      <Provider store={store}>
         <BrowserRouter>
           <AirangApp />
         </BrowserRouter>
-      </Provider>
-    </CookiesProvider>
     </AuthContextProvider>
-    {/* </React.StrictMode> */}
-  </>,
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -5,38 +5,29 @@ import Main from './pages/Main';
 import BoardWrite from './pages/board/BoardWrite';
 import BoardList from './pages/board/BoardList';
 import BoardDetail from './pages/board/BoardDetail';
-import { Container } from 'react-bootstrap';
-import Login from './pages/user/Login';
-import Logout from './pages/user/Logout'
-
 
 import Layout from './components/Layout/Layout';
 import CreateAccountPage from './pages/CreateAccountPage';
 import AuthPage from './pages/AuthPage';
 import AuthContext from './store/auth-context';
+import AdminPage from './pages/AdminPage';
 
 const AirangApp = () => {
 
-  // const authCtx = useContext(AuthContext);
+  const authCtx = useContext(AuthContext);
 
   return (
     <>
-      <Header/>
-      {/* <Layout> */}
-        <Container>
+      {/* <Header/> */}
+      <Layout>
         <Routes>
 
-        {/* <Route path="/" element={<Main />} />
+        <Route path="/" element={<Main />} />
         <Route path="/user/register/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />} />
         <Route path="/user/login/*" 
           element={authCtx.isLoggedIn ? <Navigate to='/' /> : <AuthPage />}
-        /> */}
-
-          <Route path="/" Component={Main}></Route>
-          <Route path="/user/login" Component={Login}></Route>
-          <Route path="/user/logout" Component={Logout}></Route>
-          {/* <Route path="/user/register" Component={Register}></Route> */}
-
+        />
+        <Route path="/admin" element={<AdminPage />} />
 
           {/* <Route path="/search" Component={Search}></Route>  */}
           {/*장소 검색*/}
@@ -67,8 +58,7 @@ const AirangApp = () => {
           {/*좋아요 목록*/}
 
         </Routes>
-        </Container>
-      {/* </Layout> */}
+      </Layout>
     </>
   );
 };

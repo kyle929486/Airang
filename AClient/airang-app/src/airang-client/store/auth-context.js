@@ -45,7 +45,7 @@ export const AuthContextProvider = (props) => {
     const [isGetSuccess, setIsGetSuccess] = useState(false);
 
     // userIsLoggedIn은 반환하는 boolean값이며, token이 존재하냐 안하냐에 따라 값이 변한다
-    const userIsLoggedIn = !!token;
+    let userIsLoggedIn = !!token;
 
     // 회원가입 함수
     // form에서 username, password, email을 받아 auth-action의 signupActionHandler에 넣어준다
@@ -53,11 +53,13 @@ export const AuthContextProvider = (props) => {
     // Promise 내부의 result가 null이 아닐 경우(즉 error가 없을 경우), isSuccess의 상태를 변화시켜서 성공했음을 나타낸다
     const signupHandler = (username, password, email) => {
 
+        console.log("signupHandler 실행");
         setIsSuccess(false);
         const response = authAction.signupActionHandler(username, password, email);
         response.then((result) => {
             if (result !== null) {
                 setIsSuccess(true);
+                console.log(isSuccess);
             }
         });
     };
@@ -118,7 +120,6 @@ export const AuthContextProvider = (props) => {
     // 이를 통해 만료시간이 될 경우 자동으로 logoutHandler를 실행
     useEffect(() => {
         if (tokenData) {
-            console.log(tokenData.duration);
             logoutTimer = setTimeout(logoutHandler, tokenData.duration);
         }
     }, [tokenData, logoutHandler]);

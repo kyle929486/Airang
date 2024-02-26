@@ -2,49 +2,66 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import AuthContext from '../../store/auth-context';
+import { Button, Navbar } from 'react-bootstrap';
+import { styled } from 'styled-components';
+
+  const StyldedHeaderDiv = styled.div`
+    margin: 15px;
+    color: white;
+  `;
 
 const MainNavigation = () => {
+  
+  const authCtx = useContext(AuthContext);
+  const [username, setUsername] = useState('');
+  let isLogin = authCtx.isLoggedIn;
+  let isGet = authCtx.isGetSuccess;
 
-    const authCtx = useContext(AuthContext);
-    const [username, setUsername] = useState('');
-    let isLogin = authCtx.isLoggedIn;
-    let isGet = authCtx.isGetSuccess;
+  const callback = (str) => {
+    setUsername(str);
+  };
 
-    const callback = (str) => {
-        setUsername(str);
-    };
+  useEffect(() => {
+    if (isLogin) {
+      console.log('start');
+      authCtx.getUser();
+    }
+  }, [isLogin]);
 
-    useEffect(() => {
-        if (isLogin) {
-            console.log('start');
-            authCtx.getUser();
-        }
-    }, [isLogin]);
+  useEffect(() => {
+    if (isGet) {
+      console.log('get start');
+      callback(authCtx.userObj.username);
+    }
+  }, [isGet]);
 
-    useEffect(() => {
-        if (isGet) {
-            console.log('get start');
-            callback(authCtx.userObj.username);
-        }
-    }, [isGet]);
+  const toggleLogoutHandler = () => {
+    console.log('logout');
+    authCtx.logout();
+  };
 
-    const toggleLogoutHandler = () => {
-        console.log('logout');
-        authCtx.logout();
-    };
+  return (
+    <>
+      <Navbar bg="info" data-bs-theme="dark">
+        <StyldedHeaderDiv>
+          <Link to="/" className="navbar-brand">
+            아이랑
+          </Link>
+        </StyldedHeaderDiv>
 
-    return(
-        <header>
-          <Link to='/'><div>Home</div></Link>
-          <nav>
-            <ul>
-              <li>{!isLogin && <Link to='/user/login'>Login</Link>}</li>
-              <li>{!isLogin && <Link to='/user/register'>Sign-Up</Link>}</li>
-              <li>{isLogin && <button onClick={toggleLogoutHandler}>Logout</button>}</li>
-            </ul>
-          </nav>
-        </header>
-      );
-    };
+        <StyldedHeaderDiv>
+        {!isLogin && <Link to="/user/login" className='nav-link'>로그인</Link>}
+        </StyldedHeaderDiv>
+
+        <StyldedHeaderDiv>
+        {!isLogin && <Link to="/user/register" className='nav-link'>회원가입</Link>}
+        </StyldedHeaderDiv>
+
+        {isLogin && <Button onClick={toggleLogoutHandler}>로그아웃</Button>}
+
+      </Navbar>
+    </>
+  );
+};
 
 export default MainNavigation;
