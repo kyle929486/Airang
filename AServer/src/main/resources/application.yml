@@ -43,3 +43,6 @@ spring:
 jwt:
   secret: YWlyYW5nc2VjcmV0a2V5YWlyYW5nc2VjcmV0a2V5YWlyYW5nc2VjcmV0a2V5YWlyYW5nc2VjcmV0a2V5YWlyYW5nc2VjcmV0a2V5YWlyYW5nc2VjcmV0a2V5
 
+custom:
+  api:
+    key: 61585143796b796c34337158596c56

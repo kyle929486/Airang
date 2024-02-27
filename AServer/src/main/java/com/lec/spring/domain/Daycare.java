@@ -21,6 +21,9 @@ public class Daycare {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String code;
+
     @Column
     private String sigun;
 
@@ -43,10 +46,10 @@ public class Daycare {
     private String homepage;
 
     @Column
-    private long playgroundCnt;
+    private String playgroundCnt;
 
     @Column
-    private long cctvCnt;
+    private String cctvCnt;
 
     @Column
     private String schoolBus;
