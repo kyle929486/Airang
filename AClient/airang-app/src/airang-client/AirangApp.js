@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Header from './components/Header';
 import Main from './pages/Main';
 import BoardWrite from './pages/board/BoardWrite';
 import BoardList from './pages/board/BoardList';
@@ -11,6 +10,7 @@ import CreateAccountPage from './pages/CreateAccountPage';
 import AuthPage from './pages/AuthPage';
 import AuthContext from './store/auth-context';
 import AdminPage from './pages/AdminPage';
+import Search from './pages/Search';
 
 const AirangApp = () => {
 
@@ -18,7 +18,6 @@ const AirangApp = () => {
 
   return (
     <>
-      {/* <Header/> */}
       <Layout>
         <Routes>
 
@@ -29,8 +28,8 @@ const AirangApp = () => {
         />
         <Route path="/admin" element={<AdminPage />} />
 
-          {/* <Route path="/search" Component={Search}></Route>  */}
-          {/*장소 검색*/}
+        <Route path="/search" Component={Search}></Route> 
+
           {/* <Route path="/search/list" Component={SearchList}></Route>  */}
           {/*장소 검색 결과*/}
           {/* <Route path="/search/detail/:id" Component={SearchDetail}></Route>  */}

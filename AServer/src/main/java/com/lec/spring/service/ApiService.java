@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +30,7 @@ public class ApiService {
     @Value("${custom.api.key}")
     private String apiKey;
 
-    public void daycareLoad(@RequestParam String startPage, @RequestParam String endPage) throws IOException, ParseException {
+    public int daycareLoad(String startPage, String endPage) throws IOException, ParseException {
 
         // 1. URL을 만들기 위한 StringBuilder.
         StringBuilder urlBuilder = new StringBuilder("http://openapi.seoul.go.kr:8088"); /*URL*/
@@ -98,7 +97,6 @@ public class ApiService {
             JSONObject tmp = (JSONObject) dataArr.get(i);
 
             Daycare daycare = new Daycare();
-
             daycare.setCode((String) tmp.get("STCODE"));
             daycare.setSigun((String) tmp.get("SIGUNNAME"));
             daycare.setName((String) tmp.get("CRNAME"));
@@ -122,10 +120,11 @@ public class ApiService {
                 // 존재하지 않는다면 새로운 데이터 insert
             } else {
                 daycareRepository.save(daycare);
-
             }
 
         }
+
+        return conn.getResponseCode();
 
     }
 
