@@ -50,7 +50,7 @@ public class SecurityConfiguration {
                         // ↓ 해당 URL로 들어오는 요청은 '인증'만 필요.
                         .requestMatchers("/board/detail/**").authenticated()
                         // ↓ 해당 URL로 들어오는 요청은 '인증' 뿐 아니라 ROLE_MEMBER 나 ROLE_ADMIN 권한을 갖고 있어야 한다. ('인가')
-                        .requestMatchers("/search/**", "/board/write/**", "/board/update/**", "/board/delete/**", "/diary/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers("/board/write/**", "/board/update/**", "/board/delete/**", "/diary/**").hasAnyRole("MEMBER", "ADMIN")
                         // ↓ 그 밖의 다른 요청은 모두 permit!
                         .anyRequest().permitAll())
 

@@ -10,28 +10,32 @@ import CreateAccountPage from './pages/CreateAccountPage';
 import AuthPage from './pages/AuthPage';
 import AuthContext from './store/auth-context';
 import AdminPage from './pages/AdminPage';
-import Search from './pages/Search';
+import Search from './pages/search/Search';
+import SearchList from './pages/search/SearchList';
 
 const AirangApp = () => {
-
   const authCtx = useContext(AuthContext);
 
   return (
     <>
       <Layout>
         <Routes>
+          <Route path="/" element={<Main />} />
+          <Route
+            path="/user/register/"
+            element={
+              authCtx.isLoggedIn ? <Navigate to="/" /> : <CreateAccountPage />
+            }
+          />
+          <Route
+            path="/user/login/*"
+            element={authCtx.isLoggedIn ? <Navigate to="/" /> : <AuthPage />}
+          />
+          <Route path="/admin" element={<AdminPage />} />
 
-        <Route path="/" element={<Main />} />
-        <Route path="/user/register/" element={authCtx.isLoggedIn ? <Navigate to='/' /> : <CreateAccountPage />} />
-        <Route path="/user/login/*" 
-          element={authCtx.isLoggedIn ? <Navigate to='/' /> : <AuthPage />}
-        />
-        <Route path="/admin" element={<AdminPage />} />
+          <Route path="/search" Component={Search}></Route>
+          <Route path="/search/list" Component={SearchList}></Route>
 
-        <Route path="/search" Component={Search}></Route> 
-
-          {/* <Route path="/search/list" Component={SearchList}></Route>  */}
-          {/*장소 검색 결과*/}
           {/* <Route path="/search/detail/:id" Component={SearchDetail}></Route>  */}
           {/*장소 상세*/}
           {/* <Route path="/diary/list" Component={DiaryList}></Route>  */}
@@ -49,13 +53,12 @@ const AirangApp = () => {
           <Route path="/board/write" Component={BoardWrite}></Route>
           <Route path="/board/detail/:id" Component={BoardDetail}></Route>
           {/* <Route path="/board/update/:id" Component={BoardUpdate}></Route>  */}
- 
+
           {/* <Route path="/user/mypage" Component={Mypage}></Route> */}
           {/* <Route path="/mypage/review" Component={MyPageReview}></Route>  */}
           {/*리뷰 목록*/}
           {/* <Route path="/mypage/like" Component={MyPageLike}></Route>  */}
           {/*좋아요 목록*/}
-
         </Routes>
       </Layout>
     </>

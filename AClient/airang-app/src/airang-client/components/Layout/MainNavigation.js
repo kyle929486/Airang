@@ -42,10 +42,11 @@ const MainNavigation = () => {
 
   return (
     <>
-      <Navbar bg="info" data-bs-theme="dark">
+      <Navbar bg="info" data-bs-theme="dark" fixed='top'>
         <StyldedHeaderDiv>
           <Link to="/" className="navbar-brand">
-            아이랑
+            {/* 아이랑 */}
+            <img src="resources/free-icon-baby-1580531.png" style={{width:'50px'}}/>
           </Link>
         </StyldedHeaderDiv>
 
