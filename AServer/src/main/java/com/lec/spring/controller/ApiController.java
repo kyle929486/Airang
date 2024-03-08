@@ -25,6 +25,12 @@ public class ApiController {
         return new ResponseEntity<>(apiService.daycareLoad(startPage, endPage), HttpStatus.OK);
     }
 
+    @CrossOrigin
+    @GetMapping("/facility/{startPage}/{endPage}")
+    public ResponseEntity<?> facilityLoad(@PathVariable String startPage, @PathVariable String endPage) throws IOException, ParseException {
+        return new ResponseEntity<>(apiService.facilityLoad(startPage, endPage), HttpStatus.OK);
+    }
+
 
 
 

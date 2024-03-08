@@ -23,6 +23,9 @@ public class Facility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String code;
+
     @Column
     private String name;
 
@@ -41,8 +44,11 @@ public class Facility {
     @Column
     private String address;
 
+//    @Column
+//    private long price;
+
     @Column
-    private long price;
+    private boolean isFree;
 
     @Column
     private LocalDate startDate;
